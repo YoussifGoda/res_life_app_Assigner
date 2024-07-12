@@ -4,7 +4,7 @@ body {
     padding: 0;
     color: #333;
     line-height: 1.6;
-    background-image: url('/Users/youssifsalah/Desktop/CS Projects/res_life/public/background.jpg'); /* Replace with your image path */
+    background-image: url('/Users/youssifsalah/Desktop/CS Projects/res_life_app_assigner/public/background.jpg'); /* Replace with your image path */
     background-size: cover; /* Ensures the image covers the entire background */
     background-position: center; /* Centers the image horizontally and vertically */
 }
