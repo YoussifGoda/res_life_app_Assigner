@@ -59,6 +59,7 @@ function BuildingList({ buildings, addBuilding, updateBuilding, deleteBuilding }
           onSave={handleSaveBuilding}
           fields={['Building Name', 'Area (optional)', 'Number of RAs']}
           initialValues={modalInputs}
+          title={modalType === 'edit' ? 'Edit Building' : 'Add Building'}
         />
       )}
       <ul>
@@ -74,6 +75,7 @@ function BuildingList({ buildings, addBuilding, updateBuilding, deleteBuilding }
           </li>
         ))}
       </ul>
+      {buildings.length === 0 && <p className="empty-state">No buildings added yet.</p>}
     </div>
   );
 }

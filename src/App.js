@@ -76,7 +76,8 @@ function App() {
   return (
     <div className="app">
       <div className="heading-wrapper">
-        <h1>RA and Building Management</h1>
+        <h1>Residence Life Assigner</h1>
+        <p className="app-subtitle">Manage RAs, buildings, and assignments in one place.</p>
       </div>
       <div className="sections">
         <RAList ras={ras} addRA={addRA} deleteRA={deleteRA} updateRA={updateRA} />

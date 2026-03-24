@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function Modal({ onClose, onSave, fields, dropdownOptions, dropdownLabel, initialValues, modalType }) {
+function Modal({ onClose, onSave, fields, dropdownOptions, dropdownLabel, initialValues, modalType, title }) {
   const [inputs, setInputs] = useState({});
 
   useEffect(() => {
@@ -26,7 +26,7 @@ function Modal({ onClose, onSave, fields, dropdownOptions, dropdownLabel, initia
   return (
     <div className="modal">
       <div className="modal-content">
-        <h3>{modalType === 'add' ? 'Add RA' : 'Edit RA'}</h3>
+        <h3>{title || (modalType === 'add' ? 'Add Item' : 'Edit Item')}</h3>
         {fields.map((field) => (
           <div className="modal-field" key={field}>
             <label>{field}</label>

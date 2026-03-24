@@ -58,6 +58,7 @@ function RAList({ ras, addRA, deleteRA, updateRA }) {
           onSave={handleAddRA}
           fields={['RA Name', 'Score (optional)', 'Gender (optional)']}
           initialValues={modalInputs}
+          title={editIndex !== null ? 'Edit RA' : 'Add RA'}
         />
       )}
       <ul>
@@ -71,6 +72,7 @@ function RAList({ ras, addRA, deleteRA, updateRA }) {
           </li>
         ))}
       </ul>
+      {ras.length === 0 && <p className="empty-state">No RAs added yet.</p>}
     </div>
   );
 }

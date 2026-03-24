@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { jsPDF } from 'jspdf';
 import Modal from './Modal';
 
@@ -126,6 +126,25 @@ const generatePDF = async () => {
   // Calculate the total assigned RAs
   const totalAssignedRAs = Object.values(assignedRAs).flat().length;
 
+  const currentAssignment =
+    editRAIndex !== null && selectedBuilding
+      ? assignedRAs[selectedBuilding.name]?.[editRAIndex]
+      : null;
+
+  const availableRAs = ras.filter((ra) =>
+    !Object.values(assignedRAs).some((assignments) => assignments.some((assigned) => assigned.name === ra.name))
+  );
+
+  const dropdownRAOptions = [
+    ...availableRAs,
+    ...(currentAssignment ? [currentAssignment] : []),
+  ]
+    .filter((ra, index, arr) => arr.findIndex((item) => item.name === ra.name) === index)
+    .map(
+      (ra) =>
+        `${ra.name}${ra.score !== undefined ? ' - Score: ' + ra.score : ''}${ra.gender !== undefined ? ' - Gender: ' + ra.gender : ''}`
+    );
+
   return (
     <div className="section">
       <div className="header">
@@ -134,6 +153,7 @@ const generatePDF = async () => {
       </div>
       <div id="building-assignment-content">
         <h2>Building Assignment</h2>
+        {buildings.length === 0 && <p className="empty-state">Add buildings to start assigning RAs.</p>}
         {buildings.map((building, index) => {
           const assignedRAList = assignedRAs[building.name] || [];
           const assignedCount = assignedRAList.length;
@@ -171,13 +191,16 @@ const generatePDF = async () => {
             onClose={() => setIsModalOpen(false)}
             onSave={handleAssignRA}
             fields={['RA Name']}
-            dropdownOptions={ras
-              .filter(ra => !Object.values(assignedRAs).some(assignments => assignments.some(assigned => assigned.name === ra.name)))
-              .map(ra => `${ra.name}${ra.score !== undefined ? ' - Score: ' + ra.score : ''}${ra.gender !== undefined ? ' - Gender: ' + ra.gender : ''}`)}
+            dropdownOptions={dropdownRAOptions}
             dropdownLabel="RA Name"
-            initialData={editRAIndex !== null ? {
-              'RA Name': `${assignedRAs[selectedBuilding.name][editRAIndex].name}${assignedRAs[selectedBuilding.name][editRAIndex].score ? ' - Score: ' + assignedRAs[selectedBuilding.name][editRAIndex].score : ''}${assignedRAs[selectedBuilding.name][editRAIndex].gender ? ' - Gender: ' + assignedRAs[selectedBuilding.name][editRAIndex].gender : ''}`
-            } : {}}
+            initialValues={
+              currentAssignment
+                ? {
+                    'RA Name': `${currentAssignment.name}${currentAssignment.score ? ' - Score: ' + currentAssignment.score : ''}${currentAssignment.gender ? ' - Gender: ' + currentAssignment.gender : ''}`,
+                  }
+                : {}
+            }
+            title={editRAIndex !== null ? `Replace RA in ${selectedBuilding.name}` : `Assign RA to ${selectedBuilding.name}`}
           />
         )}
       </div>
